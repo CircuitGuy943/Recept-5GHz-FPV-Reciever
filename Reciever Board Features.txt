@@ -1,0 +1,5 @@
+1. Can run off 3.7V 18650
+2. Can run off USB-C
+3. Will charge the 3.7V 18650 when both sources are connected
+4. Receives 5GHz signal using the RX5808
+4. Decodes and outputs the CVBS signal to a 40pin TFT
