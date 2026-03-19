@@ -1,4 +1,4 @@
-1. Can run off 3.7V 18650
+1. Can run off 1s LiPo
 2. Can run off USB-C
 3. Will charge the 3.7V 18650 when both sources are connected
 4. Receives 5GHz signal using the RX5808
