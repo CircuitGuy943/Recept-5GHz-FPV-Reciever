@@ -21026,7 +21026,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "10uF"
+		(property "Value" "1uF"
 			(at 117.602 50.8 0)
 			(effects
 				(font
@@ -22739,7 +22739,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "33uF"
+		(property "Value" "10uF"
 			(at 72.644 52.578 0)
 			(effects
 				(font
@@ -24227,7 +24227,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "4.7uF"
+		(property "Value" "1uF"
 			(at 69.342 40.64 0)
 			(effects
 				(font
@@ -28189,7 +28189,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
 			(at 206.0448 181.61 0)
 			(effects
 				(font
