@@ -13,56 +13,41 @@ There is also a really sleekly designed friction fit case (your mileage may vary
 - USB C power supply programming port for the RP2040
 - 1s LiPo integration with built in charging
 - 4.3" 40 pin TFT display support
+- 5.8GHz video band
+- Channel switch ability
+- RSSI support
+- No screw assembly
 
 ## PCB
-And this is my PCB. Very difficult to include everything in two layers but I managed to do it to save cost, and ommitted the use of an via in pads, the USB traces are length matched but the signals for the display don't need any trace/impedance matching as they don't run fast enough.
+This is the PCB, with L1 to L4 Layers, silkscreen for both layers and an all layers view
 
-<img src=Pictures/PCB_FRONT.png alt="PCB View" width="300"/> <img src=Pictures/PCB_BACK.png alt="PCB Rendered View" width="300"/> 
+<img src=Pictures/Finish/PCB_L1.png alt="PCB Layer 1" width="300"/> <img src=Pictures/Finish/PCB_L2.png alt="PCB Layer 2" width="300"/> <img src=Pictures/Finish/PCB_L3.png alt="PCB Layer 3" width="300"/> 
+<img src=Pictures/Finish/PCB_L4.png alt="PCB Layer 4" width="300"/> <img src=Pictures/Finish/PCB_Silkscreen_Top.png alt="PCB Slikscreen Top" width="300"/> <img src=Pictures/Finish/PCB_Silkscreen_Bottom.png alt="PCB Silkscreen Bottom" width="300"/> 
 
-And the Schematic:
 
-<img src=Pictures/SCHEMATIC.png alt="Schematic" width="800"/>
+And here is the schematic
 
-And here are some 3D views as well:
+<img src=Pictures/Finish/top_schem.png alt="Schematic" width="800"/>
+<img src=Pictures/Finish/bottom_schem.png alt="Schematic" width="800"/>
 
-<img src=Pictures/3D_VIEW_1.png alt="Schematic" width="800"/>
-<img src=Pictures/3D_VIEW_2.png alt="Schematic" width="800"/>
+## Case and 3D renders
+Here are also some 3D renders done in fusion to show off the case and it's functionality :)
+
+<img src=Pictures/Renders/render1.png alt="Case render 1" width="300"/> <img src=Pictures/Renders/render2.png alt="Case render 2" width="300"/> <img src=Pictures/Renders/render3.png alt="Case render 3" width="300"/> 
+<img src=Pictures/Renders/render4.png alt="Case render 4" width="300"/> <img src=Pictures/Renders/render5.png alt="Case render 5" width="300"/> <img src=Pictures/Renders/render6.png alt="Case render 6" width="300"/>
+<img src=Pictures/Renders/render7.png alt="Case render 7" width="300"/> <img src=Pictures/Renders/render8.png alt="Case render 8" width="300"/> <img src=Pictures/Renders/render9.png alt="Case render 9" width="300"/> 
+
+And last but not least this is a render of the PCB itself:
+
+<img src=Pictures/Renders/render10.png alt="PCB render" width="300"/>
+
 
 ## Firmware Overview
-I've included some basic firmware (**untested**) to get the TFT working but other than that it should function like a normal devboard hosting an ESP32
+I've included some basic firmware (**untested**) that should get the TFT display working out of the box with a quick upload from arduino IDE
 
 ## BOM:
-I have also included a .csv with the BOM list but here it is anyways.
+The BOM list for the actual PCB components is in the BOM folder section and here is also a BOM list for all the other components I plan to buy for this:
 
- - 1x	CH340C	
- - 3x	Diode	
- - 2x	2N3904	
- - 2x	USB_C_Receptacle_USB2.0_16P	
- - 2x	5.7K	
- - 4x	5.1K	
- - 1x	47K	
- - 4x	1K	
- - 1x	1uF	
- - 3x	0.1uF
- - 4x	10uF
- - 6x	10K
- - 4x	27R
- - 1x	396K
- - 2x	100R
- - 1x	10K
- - 1x	MT3608
- - 1x	LD1117S33TR_SOT223
- - 1x	22R
- - 1x	ESP32-S3-WROOM-1
- - 2x	22uF
- - 1x	22uH
- - 2x	RED Led
- - 1x	GREEN Led
- - 2x	SW_Push
- - 1x	Conn_01x40_Socket
- - 1x	CAT4104
- - 1x	1.8K
- - 2x	Conn_01x14_Pin
- - 2x	Conn_01x04_Pin
- - 2x	Conn_01x09_Pin
-(All parts for one devboard only)
+<img width="379" height="161" alt="image" src="https://github.com/user-attachments/assets/f8b4accf-0c67-4c57-8586-98738a0f0122" />
+
+
