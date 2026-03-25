@@ -28,9 +28,9 @@ LEDs I plan to use will be power indicators and 8 GPIO LEDs to give an indicatio
 
 # 3/10/2026 6:37 PM - Setup USB-C and BQ charger chip  
 
-_Time spent: 1.0h_  
+_Time spent: 1.5h_  
 
-USB C connector wired up with CC resistors and data nets added. Also added the BQ and it's supporting circuitry and decoupling caps with the connector for the battery 1s pack. The BQ seems to have I2C control as well so I'll connected that up to the MCU as well. I also added a switch to turn the whole system on/off, however this will not stop the battery from charging off of USB C.
+USB C connector wired up with CC resistors and data nets added. Also added the BQ and it's supporting circuitry and decoupling caps with the connector for the battery 1s pack. The BQ seems to have I2C control as well so I'll connected that up to the MCU as well. I also added a switch to turn the whole system on/off, however this will not stop the battery from charging off of USB C. Pretty straightforward stuff so far.
 
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTE5MDcxLCJwdXIiOiJibG9iX2lkIn19--b53d847542e7cd17dbc33022101a6552795f4d1e/image.png)
   
@@ -54,23 +54,23 @@ As the title says, I added the RX5808 board and wired it up. Much similar to the
 
 # 3/10/2026 6:47 PM - Setup LEDs, nets for TFT pins and backlight driver.  
 
-_Time spent: 1.0h_  
+_Time spent: 3.0h_  
 
-Added, (or more copied) the LED 24V boost and current limiting circuit form the previous devboard for the TFT display. I think the circuitry is fine, and the original problem was fully just stupid layout, because adding more copper area (a copper wire) to the trace between the inductor and diode seems to have fixed the issue completely, and only moving the wire around seems to affect it so. I just need to follow the datasheet layout biblically (and probably for the 5V buck/boost too).
+Added the LED 24V boost and current limiting circuit for the TFT Display. I think the circuitry is fine, and the original problem on my old circuit was fully just stupid layout, because adding more copper area (a copper wire) to the trace between the inductor and diode seems to have fixed the issue completely, and only moving the wire around seems to affect it so. I just need to follow the datasheet layout biblically (and probably for the 5V buck/boost too) to make sure I don't have those headaches this time.
 
-Also wired up some LEDs and required current limiting resistors. I was careful to use the basic component LEDs available by JLCPCB. And the big FFC connector for the display.
+Also wired up some LEDs and required current limiting resistors. I was careful to use the basic component LEDs available by JLCPCB to try and reduce some cost. And the big FFC connector for the display too after finding out the right one. It turns out I need one with the contacts on top, but I had one with contacts on bottom and GOD ARE THERE MANY FPCS OUT THERE, I had to sift through about a thousand different variations just to find something that MIGHT fit.
 
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTE5MDgxLCJwdXIiOiJibG9iX2lkIn19--5738341ce61d0908f35a8e5df7d7a40ddac56080/image.png)
   
 
 # 3/10/2026 6:50 PM - Added and wired up the TW8819.  
 
-_Time spent: 1.5h_  
+_Time spent: 3.0h_  
 
 This part took a while...
-The datasheet isn't the best for this specific part, it mentioned supply from 3.3V and 1.8V but it didn't make it clear whether it was either 1.8V OR 3.3V or 1.8V AND 3.3V required, and if it's the first, I wouldn't want to back feed any internal circuitry for voltage inside the TW8819. But I managed to figure out it needs two separate supplies as each one has different power consumptions.
+The datasheet isn't the best for this specific part, it mentioned supply from 3.3V and 1.8V but it didn't make it clear whether it was either 1.8V OR 3.3V or 1.8V AND 3.3V required, and if it's the first, I wouldn't want to back feed any internal circuitry for voltage inside the TW8819. But after looking around a bit I managed to figure out it needs two separate supplies as each one has different power consumptions.
 
-Then once that confusion was over, I connected up a crystal to run the chip and the power lines / data lines to the chip plus decoupling caps.
+Then once that confusion was over, I connected up a suitable crystal to run the chip and the power lines / data lines to the chip plus decoupling caps and all the nets for the display/video
 
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTE5MDg2LCJwdXIiOiJibG9iX2lkIn19--095d3deee5856f6532363d1ef7737a3b615136a4/image.png)
   
@@ -97,14 +97,19 @@ Cleaned up the schematic, spread out components, added the correct FPC connector
 
 _Time spent: 4.0h_  
 
-Used the datasheet for the layouts for all the components to find their best positions on the board and routed them. The 24V switch converted didn't actually have a datasheet layout example I could use, but I think before I didn't have enough trace area between the switching components so I made sure of that now.
+Used the datasheet for the layouts for all the components to find their best positions on the board and routed them. The 24V switch converted didn't actually have a datasheet layout example I could use, but I think before I didn't have enough trace area between the switching components so I made sure of that now. I had to try a few positions, originally I was thinking having everything to one side but that was with an 18650 cell and it's holder, now that I have a LiPo pack, they tend to have dimensions more square than long so I had to try and shove everything up top. This should be fine hopefully as long as I pay close attention to RF traces and separate power/signal traces accordingly. I've also decided to use a stackup of:
+L1 - Video trace + Signals
+L2 - GND
+L3 - More signals + Power
+L4 - GND + Power
+Of course I can deviate from that but that gives me a rough idea of what level to start routing everything.
 
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTIwNjgxLCJwdXIiOiJibG9iX2lkIn19--6e4030da214fe9f67857fb5bb50b3508d88c721e/image.png)
   
 
 # 3/14/2026 10:44 AM - Routed clock lines for the display from the decoder.  
 
-_Time spent: 1.0h_  
+_Time spent: 2.0h_  
 
 Routed the clock lines from the display to the decoder, they run at about 33MHz max (pixel clock) so it's not that big a deal keeping them the same length, but they vary from 8mm to 24mm, which shouldn't be a problem nonetheless but I made sure the pixel clock line was 24mm+ to be safe, so it reads data only once all the other signals have arrived.
 
@@ -113,7 +118,7 @@ Routed the clock lines from the display to the decoder, they run at about 33MHz 
 
 # 3/14/2026 10 PM - Vias too small, had to redo routing for decoder to FPC conn  
 
-_Time spent: 2.0h_  
+_Time spent: 2.5h_  
 
 The vias I was using were way too tiny and added £50 to the PCB cost. So I redid the connector traces with bigger vias to reduce the cost. However this time I have traces longer by 10mm on average. Still well under 100mm though so it's fine.
 
@@ -122,7 +127,7 @@ The vias I was using were way too tiny and added £50 to the PCB cost. So I redi
 
 # 3/15/2026 6 PM - Routed 5V switching power converter.  
 
-_Time spent: 2.0h_  
+_Time spent: 2.5h_  
 
 Paid very acute attention to the design guide and tried to follow it as much as possible. Pretty much on spot except, by having to use bigger vias, I ended up with a few less vias on the inductor SW nodes than the example layout shows, however the example layout also sacrificed the distance of the inductor from the IC for the closeness of the 0402 decoupling caps. So I figured this would be fine.
 
@@ -132,7 +137,7 @@ Paid very acute attention to the design guide and tried to follow it as much as 
 
 # 3/15/2026 8 PM - Routed everything necessary for the MCU.  
 
-_Time spent: 1.0h_  
+_Time spent: 2.5h_  
 
 Routed all the decoupling caps, the flash chips, and even the LED traces that go to the end of the board. I had to change the flash chip for a smaller package, not really that needed but I realised there were smaller packages available which are much nicer to route. (While doing all these specific sections I've also been routing the general power routes around the board)
 
@@ -141,7 +146,7 @@ Routed all the decoupling caps, the flash chips, and even the LED traces that go
 
 # 3/16/2026 - Finished off the rest of the board's traces  
 
-_Time spent: 3.0h_  
+_Time spent: 5.0h_  
 
 Routed the rest of power, I did my best to pay attention to current capacity of traces, even though I am on the safe side by a big margin for pretty much all the traces, but I'm still hoping the switching power converters will work (I've got trauma from the last time xd).
 
@@ -159,7 +164,7 @@ Now I need to sort out 3D models, DRC check, put some nice silkscreen on, then c
 
 # 3/17/2026 - Cleaned up silkscreen and board look.  
 
-_Time spent: 2.0h_  
+_Time spent: 3.0h_  
 
 1. Added exposed copper where the display legs grip, they're metal and I want the entire display to be connected to the ground plane, probably won't do much but it'll do more good than harm to have a bigger ground plane, because high ground plane means less interference absorption.
 2. Filleted the board, had to split it into each individual lines and then fillet those to not fillet the tabs for the display casing too
@@ -174,7 +179,7 @@ _Time spent: 2.0h_
 
 # 3/18/2026 8 PM - Added some super cool silkscreen patterns  
 
-_Time spent: 4.0h_  
+_Time spent: 5.0h_  
 
 Spent a bunch of hours trying to figure out how to work Inkscape, vectorizing tools, getting scale right but all worth it to get these super cool patterns on my board. Took me so long because I also had to figure out how to mask an area from the pattern, then create all the masks for the components and export it like that so the pattern didn't cover silkscreen/components. I also did it for the back and front.
 
@@ -190,9 +195,9 @@ Spent a bunch of hours trying to figure out how to work Inkscape, vectorizing to
 
 # 3/18/2026 9 PM - Checked DRC  
 
-_Time spent: 0.5h_  
+_Time spent: 0.7h_  
 
-Spent some time checking DRC too to make sure everything is fine. It happens I had some vias that were too small and some of the them were too close to trace, apart from that a lot of silkscreen clipped by board edge and overlapping silkscreen but I can safely ignore that as I think you can see why that's happening from the picture xd.
+Spent some time checking DRC too to make sure everything is fine. It happens I had some vias that were too small and some of the them were too close to traces so I had to redo quite a few vias, apart from that a lot of silkscreen clipped by board edge and overlapping silkscreen but I can safely ignore that as I think you can see why that's happening from the picture xd.
 
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTIzMzUzLCJwdXIiOiJibG9iX2lkIn19--9afb86f47ceb938cc9bb5d50554dbf6bae56a9d3/image.png)
   
@@ -213,7 +218,7 @@ Exported the PCB's 3d model into fusion, then modelled the screen and the LiPo b
 
 # 3/19/2026 9 PM - Modelled a friction fit case  
 
-_Time spent: 3.0h_  
+_Time spent: 4.0h_  
 
 My recently acquired Elegoo Neptune 4 seems to have perfectly calibrated dimensional accuracy (unlike my older ender 3), to the point where a ring on a cylinder, with no clearance in-between the two, they will slide in perfectly with the right amount of friction to get a good hold. So I decided to leverage that and make my life easier by creating a friction fit case. This way I don't have to use and heated inserts and screws to keep it shut and I don't have to trial different clearance options as I already have the perfect amount of friction at zero clearance.
 
@@ -231,6 +236,19 @@ First I started of by making a basic covering around the PCB, display and batter
 Edit: Almost forgot the USB C and power switch opening xd
 
 ![image](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI0MDQ4LCJwdXIiOiJibG9iX2lkIn19--821c27c259df85fd3806256c29a2d897f2cc188c/image.png)
+
+  
+
+# 3/23/2026 - Made some very nice renders using Fusion  
+
+_Time spent: 0.5h_  
+
+Used Fusion 360 and it's render functionality to make some nicer renders and show the functionality of the case! (I also added an Ethix Mad Mushroom Antenna just to complete the model, however I'll probably not be ordering that as it's not the cheapest option out there and quite expensive)
+
+![render6](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjUyLCJwdXIiOiJibG9iX2lkIn19--23665b9f870a4e83dc8e6ca4aca3d0d76fd71d65/render6.png)![render5](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjUxLCJwdXIiOiJibG9iX2lkIn19--070c0cd8a2f3baaf1f94c7734d5147fa1d1ccc4d/render5.png)
+![render8](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjU0LCJwdXIiOiJibG9iX2lkIn19--4d0be2fb4d907802d71f56b8f9aa4f015e050701/render8.png)![render1](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjQ4LCJwdXIiOiJibG9iX2lkIn19--eb56bd6df5a50bc5f9d1ae3153c7a84bba7e20a8/render1.png)![render2](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjQ5LCJwdXIiOiJibG9iX2lkIn19--b8600dea807ff86e633c80aa938e357234696537/render2.png)
+![render9](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjU1LCJwdXIiOiJibG9iX2lkIn19--3721836595d7031ce57011ad7db86e84fc55beb4/render9.png)![render4](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjUwLCJwdXIiOiJibG9iX2lkIn19--6db9b5c31547c6b56e0cbef5539d6bed7fbb43af/render4.png)![render7](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjUzLCJwdXIiOiJibG9iX2lkIn19--6d70d8ac41e46cc7ffdbc4766d693b09c1547d12/render7.png)
+![render10](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjU2LCJwdXIiOiJibG9iX2lkIn19--4bb6e706969ff5abcc6c422e129a9eefdcce0484/render10.png)![render3](/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTI2NjU3LCJwdXIiOiJibG9iX2lkIn19--a73be39bf629ee393901fef461bd467a86d70d46/render3.png)
 
   
 
