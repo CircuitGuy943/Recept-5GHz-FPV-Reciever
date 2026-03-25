@@ -9,6 +9,8 @@ Power the backlight for the display there is an MT3608 24V boost converter paire
 
 There is also a really sleekly designed friction fit case (your mileage may vary with tolerances) designed to house the TFT display and battery mounted on the PCB all in one. It's designed to be easy to print, no supports and pretty much as simple as it gets to assemble. And if that wasn't enough for your preferences of beautiful design, a silkscreen pattern also embosses the board on both sides (although what use this is as you can't even see it in the case, don't ask me) to give a super cool aesthetic.
 
+To use this you simply need the PCB, the display is attached to it using the metal bracket/casing it came in and the battery can either be stuck on with double sided tape or if you're putting it in the case it can even be left loose as it'll be contained. The device then fits into the bottom section of the case and the top section then just simply friction fits over it and sits in place. The configuration code can then bu uploaded using Arduino IDE via the USB C cable onto the RP2040 to configure the TW8819 and allow it to show video on the TFT display.
+
 ## Features:
 - USB C power supply programming port for the RP2040
 - 1s LiPo integration with built in charging
@@ -41,13 +43,21 @@ And last but not least this is a render of the PCB itself:
 
 <img src=Pictures/Renders/render10.png alt="PCB render" width="300"/>
 
-
 ## Firmware Overview
 I've included some basic firmware (**untested**) that should get the TFT display working out of the box with a quick upload from arduino IDE
 
 ## BOM:
 The BOM list for the actual PCB components is in the BOM folder section and here is also a BOM list for all the other components I plan to buy for this:
 
-<img width="379" height="161" alt="image" src="https://github.com/user-attachments/assets/f8b4accf-0c67-4c57-8586-98738a0f0122" />
+
+- PCB             $198.94		
+- Antenna         $7.77      https://www.aliexpress.com/item/1005006153683653.html		
+- 90 degree SMA   $4.51      https://www.aliexpress.com/item/1005005665998117.html						
+- RX5808 module   $33.54     https://www.ebay.co.uk/itm/264574341923						                (This module is not cheaper on AliExpress)
+- Battery         $9.39      https://www.ebay.co.uk/itm/396305473532?var=665862385939						(I don't feel safe buying batteries off Ali)
+											
+Total			      $246.38		
+
+<img width="1083" height="141" alt="image" src="https://github.com/user-attachments/assets/e6ed5a2c-47a3-496e-8e86-db1041965be2" />
 
 
